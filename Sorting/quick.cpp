@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 void swapElements(int arr[], int i, int j) {
@@ -7,9 +7,11 @@ void swapElements(int arr[], int i, int j) {
     arr[j] = temp;
 }
 
-int partition(int arr[], int l, int r) {
+int partition(int arr[], int l, int r, int pass) {
     int pivot = arr[r];
     int i = l - 1;
+    cout << "Pass " << pass << ": Pivot = " << pivot << endl;
+
     for (int j = l; j < r; j++) {
         if (arr[j] < pivot) {
             i++;
@@ -17,14 +19,23 @@ int partition(int arr[], int l, int r) {
         }
     }
     swapElements(arr, i + 1, r);
+
+    // Display the array after each partition operation
+    cout << "Array after pass " << pass << ": ";
+    for (int k = l; k <= r; k++) {
+        cout << arr[k] << " ";
+    }
+    cout << endl;
+
     return i + 1;
 }
 
-void quickSort(int arr[], int l, int r) {
+void quickSort(int arr[], int l, int r, int &pass) {
     if (l < r) {
-        int pi = partition(arr, l, r);
-        quickSort(arr, l, pi - 1);
-        quickSort(arr, pi + 1, r);
+        pass++;
+        int pi = partition(arr, l, r, pass);
+        quickSort(arr, l, pi - 1, pass);
+        quickSort(arr, pi + 1, r, pass);
     }
 }
 
@@ -36,7 +47,7 @@ void displayArray(int a[], int size) {
 }
 
 int main() {
-    int n;
+    int n, pass = 0;
     cout << "Enter the number of elements: ";
     cin >> n;
     int arr[n];
@@ -45,7 +56,8 @@ int main() {
         cin >> arr[i];
     }
 
-    quickSort(arr, 0, n - 1);
+    quickSort(arr, 0, n - 1, pass);
+    cout << "Sorted array: ";
     displayArray(arr, n);
 
     return 0;
