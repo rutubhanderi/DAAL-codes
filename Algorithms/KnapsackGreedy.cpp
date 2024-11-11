@@ -30,7 +30,6 @@ double fractionalKnapsack(int capacity, vector<Item>& items) {
     }
     return totalValue;
 }
-
 int main() {
     vector<Item> items = {{60, 10}, {100, 20}, {120, 30}};
     int capacity = 50;

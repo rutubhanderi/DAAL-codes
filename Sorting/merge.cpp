@@ -45,7 +45,7 @@ void merge(int arr[], int l, int mid, int r, int n) {
     }
 
     // Print array after each merge operation
-    cout << "Array after merging from index " << l << " to " << r << ": ";
+    cout << "Array after merging : ";
     printArray(arr, n);
 }
 
@@ -67,8 +67,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
-
-    cout << "Starting merge sort...\n";
     mergeSort(arr, 0, n - 1, n);
 
     cout << "Sorted array: ";

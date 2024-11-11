@@ -34,7 +34,7 @@ int knapSack(int W, int wt[], int val[], int n)
 }
 int main()
 {
-    int profit[] = {1,2,5,6 };
+    int profit[] = {1,2,5,6};
     int weight[] = {2,3,4,5};
     int W = 8;
     int n = sizeof(profit) / sizeof(profit[0]);
