@@ -1,59 +1,69 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-void printSolution(vector<vector<int>>& board) {
-    int n = board.size();
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++)
-            if(board[i][j])
-                cout << "Q ";
-            else
-                cout << ". ";
-        cout << "\n";
-    }
-}
-bool isSafe(vector<vector<int>>& board,int row, int col) {
-    int n = board.size();
-    int i, j;
-    for (i = 0; i < col; i++)
-        if (board[row][i])
-            return false;
-    for (i = row, j = col; i >= 0 && 
-         j >= 0; i--, j--)
-        if (board[i][j])
-            return false;
-    for (i = row, j = col; j >= 0 && 
-         i < n; i++, j--)
-        if (board[i][j])
-            return false;
 
-    return true;
+void printboard(int board[][100],int n){
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			cout<<board[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;
 }
-bool solveNQUtil(vector<vector<int>>& board, int col) {
-    int n = board.size();
-    if (col >= n)
-        return true;
-    for (int i = 0; i < n; i++) {
-        if (isSafe(board, i, col)) {
-            board[i][col] = 1;
-            if (solveNQUtil(board, col + 1))
-                return true;
-            board[i][col] = 0; 
-        }
-    }
-    return false;
-}
-bool solveNQ(int n) {
-    vector<vector<int>> board(n, vector<int>(n, 0));
 
-    if (solveNQUtil(board, 0) == false) {
-        cout << "Solution does not exist";
-        return false;
-    }
-    printSolution(board);
-    return true;
+bool issafe(int board[][100],int n,int i,int j){
+	int row=i;
+	while(row>=0){                  
+		if(board[row][j]){
+			return false;
+		}
+		row--;
+	}
+		
+	row=i;
+	int col=j;
+	while(row>=0 && col<n){                   
+			if(board[row][col]) return false;
+			row--;
+			col++;
+	}
+	
+	row=i;
+	col=j;
+	while(row>=0 && col>=0){
+		if(board[row][col]) return false;
+		row--;
+		col--;
+	}                              
+	return true;
 }
-int main() {
-    int n = 4;
-    solveNQ(n);
-    return 0;
+
+bool PlaceNQueen(int board[][100],int n,int curr_row){
+	if(curr_row==n){
+		printboard(board,n);
+		return true;
+	}
+	
+	for(int j=0;j<n;j++){
+		if(issafe(board,n,curr_row,j)){
+			board[curr_row][j]=1;
+			bool ans = PlaceNQueen(board,n,curr_row+1);
+			if(ans){
+				return true;
+			}
+			board[curr_row][j]=0;
+		}
+	}
+	return false;
+	
+}
+
+int main(){
+	cout<<"Enter size of board:";
+	int n;
+	cin>>n;
+	
+	int board[100][100]={};
+	PlaceNQueen(board,n,0);
+	return 0;
 }

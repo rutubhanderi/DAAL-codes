@@ -11,7 +11,6 @@ void printMatrix(const vector<vector<int>>& dist, int n) {
         }
         cout << endl;
     }
-    cout << "------------------------------------" << endl;
 }
 void floydWarshall(vector<vector<int>>& dist, int n) {
     cout << "Initial distance matrix:" << endl;

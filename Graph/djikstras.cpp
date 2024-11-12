@@ -1,55 +1,52 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+#define V 5
+int minDistance(int dist[], bool sptSet[])
+{
+    int min = INT_MAX, min_index;
 
-void dijkstra(int start, const vector<vector<pair<int, int>>> &graph, int V) {
-    vector<int> dist(V, INT_MAX);  
-    dist[start] = 0;               
+    for (int v = 0; v < V; v++)
+        if (sptSet[v] == false && dist[v] <= min)
+            min = dist[v], min_index = v;
 
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({0, start});  
+    return min_index;
+}
+void printSolution(int dist[])
+{
+    cout << "Vertex \t Distance from Source" << endl;
+    for (int i = 0; i < V; i++)
+        cout << i << " \t\t\t\t" << dist[i] << endl;
+}
+void dijkstra(int graph[V][V], int src)
+{
+    int dist[V];
+    bool sptSet[V]; 
 
-    while (!pq.empty()) {
-        int u = pq.top().second;   
-        int d = pq.top().first;    
-        pq.pop();
-
-        for (auto &neighbor : graph[u]) {
-            int v = neighbor.first;
-            int weight = neighbor.second;
-
-            if (d + weight < dist[v]) {
-                dist[v] = d + weight;
-                pq.push({dist[v], v});
-            }
-        }
+    for (int i = 0; i < V; i++)
+        dist[i] = INT_MAX, sptSet[i] = false;
+    dist[src] = 0;
+    for (int count = 0; count < V - 1; count++) {
+        int u = minDistance(dist, sptSet);
+        sptSet[u] = true;
+        for (int v = 0; v < V; v++)
+            if (!sptSet[v] && graph[u][v]
+                && dist[u] != INT_MAX
+                && dist[u] + graph[u][v] < dist[v])
+                dist[v] = dist[u] + graph[u][v];
     }
 
-    for (int i = 0; i < V; ++i) {
-        if (dist[i] == INT_MAX)
-            cout << "Node " << i << ": Unreachable\n";
-        else
-            cout << "Node " << i << ": " << dist[i] << "\n";
-    }
+    printSolution(dist);
 }
 
-int main() {
-    int V, E, start;
-    cout << "Enter the number of vertices and edges: ";
-    cin >> V >> E;
+int main()
+{
 
-    vector<vector<pair<int, int>>> graph(V);
-
-    cout << "Enter the edges (source, destination, weight):\n";
-    for (int i = 0; i < E; ++i) {
-        int u, v, w;
-        cin >> u >> v >> w;
-        graph[u].push_back({v, w});
-        graph[v].push_back({u, w});  
-    }
-
-    cout << "Enter the starting node: ";
-    cin >> start;
-    dijkstra(start, graph, V);
+    int graph[V][V] ={
+        
+    };
+    dijkstra(graph, 0);
 
     return 0;
 }
+
+
